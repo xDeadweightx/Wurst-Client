@@ -3,6 +3,3 @@
 .classpath
 .project
 /mcsrc
-/wurst
-*.png
-/logs/*
