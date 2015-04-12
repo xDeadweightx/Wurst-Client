@@ -475,4 +475,20 @@ public class RenderUtils
 		glDepthMask(true);
 		glDisable(GL_BLEND);
 	}
+	
+	public static void beginSmoothLine()
+	  {
+	    GL11.glEnable(2848);
+	    GL11.glHint(3154, 4354);
+	    GL11.glBlendFunc(770, 771);
+	    GL11.glEnable(32925);
+	  }
+	
+	public static void endSmoothLine()
+	  {
+	    GL11.glDisable(2848);
+	    GL11.glHint(3154, 4354);
+	    GL11.glBlendFunc(770, 771);
+	    GL11.glDisable(32925);
+	  }
 }

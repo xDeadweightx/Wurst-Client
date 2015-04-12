@@ -115,6 +115,7 @@ public class ModManager
 		addMod(new ThrowMod());
 		addMod(new TimerMod());
 		addMod(new TracersMod());
+		addMod(new TrajectoriesMod());
 		addMod(new TriggerBotMod());
 		addMod(new TrueSightMod());
 		addMod(new XRayMod());
