@@ -1,5 +1,7 @@
 package tk.wurst_client.mods;
 
+import java.awt.Color;
+
 import net.minecraft.block.material.Material;
 import net.minecraft.client.Minecraft;
 import net.minecraft.entity.player.EntityPlayer;
@@ -10,13 +12,13 @@ import net.minecraft.util.MathHelper;
 import net.minecraft.util.MovingObjectPosition;
 import net.minecraft.util.Vec3;
 
+import org.darkstorm.minecraft.gui.util.RenderUtil;
 import org.lwjgl.opengl.GL11;
 
 import tk.wurst_client.events.EventManager;
 import tk.wurst_client.events.listeners.RenderListener;
 import tk.wurst_client.mods.Mod.Category;
 import tk.wurst_client.mods.Mod.Info;
-import tk.wurst_client.utils.RenderUtils;
 
 @Info(category = Category.RENDER,
 	description = "Shows projectiles' path of motion",
@@ -91,10 +93,14 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		float newX = origX;
 		float newY = origY;
 		float newZ = origZ;
-		GL11.glPushMatrix();
-		RenderUtils.beginSmoothLine();
-		GL11.glColor4f(0.25F, 0.65F, 0.95F, 0.7F);
-		GL11.glBegin(1);
+		GL11.glBlendFunc(770, 771);
+		GL11.glEnable(GL11.GL_BLEND);
+		GL11.glLineWidth(2.0F);
+		GL11.glDisable(GL11.GL_TEXTURE_2D);
+		GL11.glDisable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(false);
+		RenderUtil.setColor(Color.RED);
+		GL11.glBegin(GL11.GL_LINES);
 		for(int i = 0; i < 256; i++)
 		{
 			newX += nextSegX;
@@ -172,8 +178,10 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
 			- playerZ - 0.1000000014901161D);
 		GL11.glEnd();
-		RenderUtils.endSmoothLine();
-		GL11.glPopMatrix();
+		GL11.glEnable(GL11.GL_TEXTURE_2D);
+		GL11.glEnable(GL11.GL_DEPTH_TEST);
+		GL11.glDepthMask(true);
+		GL11.glDisable(GL11.GL_BLEND);
 	}
 	
 	@Override
