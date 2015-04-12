@@ -53,7 +53,7 @@ public class TrajectoriesMod extends Mod implements RenderListener
 			case 344:
 			case 346:
 			case 368:
-				power = 1.6F;
+				power = 2.6F;
 				break;
 			case 373:
 			case 384:
@@ -68,19 +68,19 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		float playerZ = (float)player.posZ;
 		float playerYaw = player.rotationYaw;
 		float playerPitch = player.rotationPitch;
-		float var15 = playerYaw / 180.0F * 3.141593F;
-		float var16 = MathHelper.sin(var15);
-		float var17 = MathHelper.cos(var15);
-		float var18 = playerPitch / 180.0F * 3.141593F;
-		float var19 = MathHelper.cos(var18);
-		float var20 = playerPitch / 180.0F * 3.141593F;
-		float var21 = MathHelper.sin(var20);
-		float origX = playerX - var17 * 0.16F;
-		float origY = playerY - 0.1F;
-		float origZ = playerZ - var16 * 0.16F;
-		float nextSegX = -var16 * var19 * 0.4F;
-		float nextSegY = -var21 * 0.4F;
-		float nextSegZ = var17 * var19 * 0.4F;
+		float yawRad = (float)Math.toRadians(playerYaw);
+		float yawSin = MathHelper.sin(yawRad);
+		float yawCos = MathHelper.cos(yawRad);
+		float pitchRad = (float)Math.toRadians(playerPitch);
+		float pitchCos = MathHelper.cos(pitchRad);
+		float pitchrad2 = (float)Math.toRadians(playerPitch);
+		float pitchSin = MathHelper.sin(pitchrad2);
+		float origX = playerX - yawCos * 0.16F;
+		float origY = playerY + player.getEyeHeight() - 0.1F;
+		float origZ = playerZ - yawSin * 0.16F;
+		float nextSegX = -yawSin * pitchCos * 0.4F;
+		float nextSegY = -pitchSin * 0.4F;
+		float nextSegZ = yawCos * pitchCos * 0.4F;
 		float var28 =
 			MathHelper.sqrt_double(nextSegX * nextSegX + nextSegY * nextSegY
 				+ nextSegZ * nextSegZ);
@@ -125,20 +125,16 @@ public class TrajectoriesMod extends Mod implements RenderListener
 				AxisAlignedBB.fromBounds(origX - 0.125F, origY, origZ - 0.125F,
 					origX + 0.125F, origY + 0.25F, origZ + 0.125F);
 			float var4 = 0.0F;
-			for(int var36 = 0; var36 < 5; var36++)
+			for(int i2 = 0; i2 < 5; i2++)
 			{
-				float var37 =
-					(float)(bounding.minY + (bounding.maxY - bounding.minY)
-						* var36 / 5.0D);
-				float var38 =
-					(float)(bounding.minY + (bounding.maxY - bounding.minY)
-						* (var36 + 1) / 5.0D);
+				float var37 = (float)(bounding.maxY * i2 / 5.0D);
+				float var38 = (float)(bounding.maxY * (i2 + 1) / 5.0D);
 				AxisAlignedBB var39 =
 					AxisAlignedBB.fromBounds(bounding.minX, var37,
 						bounding.minZ, bounding.maxX, var38, bounding.maxZ);
 				if(Minecraft.getMinecraft().theWorld.isAABBInMaterial(var39,
 					Material.water))
-					var4 += 0.2F;
+					var4 -= 0.2F;
 			}
 			float var40 = var4 * 2.0F - 1.0F;
 			nextSegY += 0.04F * var40;
@@ -159,24 +155,14 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		pX = origX;
 		pY = origY;
 		pZ = origZ;
-		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
-			- playerZ - 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
-			- playerZ + 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
-			- playerZ + 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
-			- playerZ - 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
-			- playerZ + 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
-			- playerZ + 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
-			- playerZ - 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
-			- playerZ - 0.1000000014901161D);
-		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
-			- playerZ - 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX + 0.1, pY - playerY + 0.1, pZ - playerZ + 0.1);
+		GL11.glVertex3d(pX - playerX - 0.1, pY - playerY - 0.1, pZ - playerZ - 0.1);
+		GL11.glVertex3d(pX - playerX - 0.1, pY - playerY + 0.1, pZ - playerZ - 0.1);
+		GL11.glVertex3d(pX - playerX + 0.1, pY - playerY - 0.1, pZ - playerZ + 0.1);
+		GL11.glVertex3d(pX - playerX - 0.1, pY - playerY + 0.1, pZ - playerZ + 0.1);
+		GL11.glVertex3d(pX - playerX + 0.1, pY - playerY - 0.1, pZ - playerZ - 0.1);
+		GL11.glVertex3d(pX - playerX + 0.1, pY - playerY + 0.1, pZ - playerZ - 0.1);
+		GL11.glVertex3d(pX - playerX - 0.1, pY - playerY - 0.1, pZ - playerZ + 0.1);
 		GL11.glEnd();
 		GL11.glEnable(GL11.GL_TEXTURE_2D);
 		GL11.glEnable(GL11.GL_DEPTH_TEST);
