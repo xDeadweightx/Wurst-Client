@@ -41,21 +41,21 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		ItemStack item = player.inventory.getCurrentItem();
 		if(item == null)
 			return;
-		float var5 = 0F;
+		float power = 0F;
 		switch(Item.getIdFromItem(item.getItem()))
 		{
 			case 261:
-				var5 = 3.2F;
+				power = 3.2F;
 				break;
 			case 332:
 			case 344:
 			case 346:
 			case 368:
-				var5 = 1.6F;
+				power = 1.6F;
 				break;
 			case 373:
 			case 384:
-				var5 = 0.8F;
+				power = 0.8F;
 				break;
 			default:
 				return;
@@ -85,9 +85,9 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		nextSegX /= var28;
 		nextSegY /= var28;
 		nextSegZ /= var28;
-		nextSegX *= var5;
-		nextSegY *= var5;
-		nextSegZ *= var5;
+		nextSegX *= power;
+		nextSegY *= power;
+		nextSegZ *= power;
 		float newX = origX;
 		float newY = origY;
 		float newZ = origZ;
@@ -95,11 +95,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		RenderUtils.beginSmoothLine();
 		GL11.glColor4f(0.25F, 0.65F, 0.95F, 0.7F);
 		GL11.glBegin(1);
-		int segmentCount = 0;
-		boolean continueDraw = true;
-		while(continueDraw)
+		for(int i = 0; i < 256; i++)
 		{
-			segmentCount++;
 			newX += nextSegX;
 			newY += nextSegY;
 			newZ += nextSegZ;
@@ -113,85 +110,70 @@ public class TrajectoriesMod extends Mod implements RenderListener
 				origX = (float)movingObj.hitVec.xCoord;
 				origY = (float)movingObj.hitVec.yCoord;
 				origZ = (float)movingObj.hitVec.zCoord;
-				continueDraw = false;
-			}else if(segmentCount > 200)
-				continueDraw = false;
-			else
-			{
-				drawLine3D(origX - playerX, origY - playerY, origZ - playerZ,
-					newX - playerX, newY - playerY, newZ - playerZ);
-				
-				AxisAlignedBB bounding =
-					AxisAlignedBB.fromBounds(origX - 0.125F, origY,
-						origZ - 0.125F, origX + 0.125F, origY + 0.25F,
-						origZ + 0.125F);
-				float var4 = 0.0F;
-				for(int var36 = 0; var36 < 5; var36++)
-				{
-					float var37 =
-						(float)(bounding.minY + (bounding.maxY - bounding.minY)
-							* var36 / 5.0D);
-					float var38 =
-						(float)(bounding.minY + (bounding.maxY - bounding.minY)
-							* (var36 + 1) / 5.0D);
-					AxisAlignedBB var39 =
-						AxisAlignedBB.fromBounds(bounding.minX, var37,
-							bounding.minZ, bounding.maxX, var38, bounding.maxZ);
-					if(Minecraft.getMinecraft().theWorld.isAABBInMaterial(
-						var39, Material.water))
-						var4 += 0.2F;
-				}
-				float var40 = var4 * 2.0F - 1.0F;
-				nextSegY += 0.04F * var40;
-				float var37 = 0.92F;
-				if(var4 > 0.0F)
-				{
-					var37 *= 0.9F;
-					nextSegY *= 0.8F;
-				}
-				nextSegX *= var37;
-				nextSegY *= var37;
-				nextSegZ *= var37;
-				
-				origX = newX;
-				origY = newY;
-				origZ = newZ;
+				break;
 			}
-			if(!continueDraw)
+			GL11.glVertex3d(origX - playerX, origY - playerY, origZ - playerZ);
+			GL11.glVertex3d(newX - playerX, newY - playerY, newZ - playerZ);
+			
+			AxisAlignedBB bounding =
+				AxisAlignedBB.fromBounds(origX - 0.125F, origY, origZ - 0.125F,
+					origX + 0.125F, origY + 0.25F, origZ + 0.125F);
+			float var4 = 0.0F;
+			for(int var36 = 0; var36 < 5; var36++)
 			{
-				pX = origX;
-				pY = origY;
-				pZ = origZ;
-				GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY
-					- playerY, pZ - playerZ - 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY
-					- playerY, pZ - playerZ + 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY
-					- playerY, pZ - playerZ + 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY
-					- playerY, pZ - playerZ - 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY
-					- playerY, pZ - playerZ + 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY
-					- playerY, pZ - playerZ + 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY
-					- playerY, pZ - playerZ - 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY
-					- playerY, pZ - playerZ - 0.1000000014901161D);
-				GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY
-					- playerY, pZ - playerZ - 0.1000000014901161D);
+				float var37 =
+					(float)(bounding.minY + (bounding.maxY - bounding.minY)
+						* var36 / 5.0D);
+				float var38 =
+					(float)(bounding.minY + (bounding.maxY - bounding.minY)
+						* (var36 + 1) / 5.0D);
+				AxisAlignedBB var39 =
+					AxisAlignedBB.fromBounds(bounding.minX, var37,
+						bounding.minZ, bounding.maxX, var38, bounding.maxZ);
+				if(Minecraft.getMinecraft().theWorld.isAABBInMaterial(var39,
+					Material.water))
+					var4 += 0.2F;
 			}
+			float var40 = var4 * 2.0F - 1.0F;
+			nextSegY += 0.04F * var40;
+			float var37 = 0.92F;
+			if(var4 > 0.0F)
+			{
+				var37 *= 0.9F;
+				nextSegY *= 0.8F;
+			}
+			nextSegX *= var37;
+			nextSegY *= var37;
+			nextSegZ *= var37;
+			
+			origX = newX;
+			origY = newY;
+			origZ = newZ;
 		}
+		pX = origX;
+		pY = origY;
+		pZ = origZ;
+		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
+			- playerZ - 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
+			- playerZ + 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
+			- playerZ + 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
+			- playerZ - 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
+			- playerZ + 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
+			- playerZ + 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
+			- playerZ - 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX + 0.1000000014901161D, pY - playerY, pZ
+			- playerZ - 0.1000000014901161D);
+		GL11.glVertex3d(pX - playerX - 0.1000000014901161D, pY - playerY, pZ
+			- playerZ - 0.1000000014901161D);
 		GL11.glEnd();
 		RenderUtils.endSmoothLine();
 		GL11.glPopMatrix();
-	}
-	
-	public void drawLine3D(float var1, float var2, float var3, float var4,
-		float var5, float var6)
-	{
-		GL11.glVertex3d(var1, var2, var3);
-		GL11.glVertex3d(var4, var5, var6);
 	}
 	
 	@Override
