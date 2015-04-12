@@ -5,6 +5,4 @@
 /mcsrc
 /wurst
 *.png
-/logs
-/saves
-options.txt
+/logs/*
