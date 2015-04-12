@@ -81,7 +81,6 @@ public class TrajectoriesMod extends Mod implements RenderListener
 			
 			if (drawPrediction)
 			{
-				AxisAlignedBB bounding = AxisAlignedBB.fromBounds(0.0D, 0.0D, 0.0D, 0.0D, 0.0D, 0.0D);
 				float playerX = (float)player.posX;
 				float playerY = (float)player.posY;
 				float playerZ = (float)player.posZ;
@@ -122,8 +121,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		            newX += nextSegX;
 		            newY += nextSegY;
 		            newZ += nextSegZ;
-		            Vec3 vecOrig = Vec3.createVectorHelper(origX, origY, origZ);
-		            Vec3 vecNew = Vec3.createVectorHelper(newX, newY, newZ);
+		            Vec3 vecOrig = new Vec3(origX, origY, origZ);
+		            Vec3 vecNew = new Vec3(newX, newY, newZ);
 		            MovingObjectPosition movingObj = Minecraft.getMinecraft().theWorld.rayTraceBlocks(vecOrig, vecNew, false, true, false);
 		            if (movingObj != null)
 		            {
@@ -139,8 +138,8 @@ public class TrajectoriesMod extends Mod implements RenderListener
 		            else
 		            {
 		              drawLine3D(origX - playerX, origY - playerY, origZ - playerZ, newX - playerX, newY - playerY, newZ - playerZ);
-		              
-		              bounding.setBounds(origX - 0.125F, origY, origZ - 0.125F, origX + 0.125F, origY + 0.25F, origZ + 0.125F);
+
+				      AxisAlignedBB bounding = AxisAlignedBB.fromBounds(origX - 0.125F, origY, origZ - 0.125F, origX + 0.125F, origY + 0.25F, origZ + 0.125F);
 		              var4 = 0.0F;
 		              for (int var36 = 0; var36 < 5; var36++)
 		              {
