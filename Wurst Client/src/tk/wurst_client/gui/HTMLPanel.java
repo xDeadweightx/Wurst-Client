@@ -8,7 +8,6 @@
 package tk.wurst_client.gui;
 
 import java.awt.GridLayout;
-import java.io.File;
 
 import javafx.application.Platform;
 import javafx.beans.value.ChangeListener;
@@ -22,6 +21,7 @@ import javafx.scene.web.WebView;
 import javax.swing.JPanel;
 
 import netscape.javascript.JSObject;
+import tk.wurst_client.WurstClient;
 
 @SuppressWarnings("restriction")
 public class HTMLPanel extends JPanel
@@ -63,12 +63,8 @@ public class HTMLPanel extends JPanel
 			@Override
 			public void run()
 			{
-				String url;
-				url =
-					getClass().getClassLoader().getResource("html/" + filename)
-						.toExternalForm()
-						.replace("rsrc:", new File(".").toURI().toString());
-				engine.load(url);
+				engine.load(WurstClient.INSTANCE.fileManager.htmlDir.toURI()
+					.toString() + filename);
 			}
 		});
 		htmlFile = filename;
