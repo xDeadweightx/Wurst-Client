@@ -16,6 +16,7 @@ import tk.wurst_client.chat.ChatMessenger;
 import tk.wurst_client.commands.CmdManager;
 import tk.wurst_client.events.EventManager;
 import tk.wurst_client.files.FileManager;
+import tk.wurst_client.gui.GuiController;
 import tk.wurst_client.gui.GuiManager;
 import tk.wurst_client.mods.ModManager;
 import tk.wurst_client.options.Friends;
@@ -38,6 +39,7 @@ public enum WurstClient
 	public FileManager fileManager;
 	public Friends friends;
 	public GuiManager guiManager;
+	public GuiController guiController;
 	public ModManager modManager;
 	public Keybinds keybinds;
 	public Options options;
@@ -49,6 +51,7 @@ public enum WurstClient
 		eventManager = new EventManager();
 		modManager = new ModManager();
 		guiManager = new GuiManager();
+		guiController = new GuiController();
 		cmdManager = new CmdManager();
 		fileManager = new FileManager();
 		updater = new Updater();
