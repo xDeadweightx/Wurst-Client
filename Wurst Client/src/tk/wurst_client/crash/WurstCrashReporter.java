@@ -11,7 +11,6 @@ package tk.wurst_client.crash;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
-import java.awt.Toolkit;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -28,9 +27,8 @@ public class WurstCrashReporter extends JFrame
 		setUndecorated(true);
 		setTitle("Wurst has crashed!");
 		setAlwaysOnTop(true);
-		setDefaultCloseOperation(JFrame.DISPOSE_ON_CLOSE);
-		Dimension screen = Toolkit.getDefaultToolkit().getScreenSize();
-		setBounds(screen.width - 450, 0, 450, 300);
+		setSize(new Dimension(450, 300));
+		setLocationRelativeTo(null);
 		this.report = report;
 		getContentPane().setLayout(
 			new BoxLayout(getContentPane(), BoxLayout.Y_AXIS));
@@ -66,5 +64,6 @@ public class WurstCrashReporter extends JFrame
 		
 		JButton btnDontSend = new JButton("Don't Send");
 		panel.add(btnDontSend);
+		setVisible(true);
 	}
 }
