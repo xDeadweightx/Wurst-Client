@@ -21,6 +21,7 @@ import net.minecraft.crash.CrashReport;
 public class WurstCrashReporter extends JFrame
 {
 	private CrashReport report;
+	private boolean doneReporting = false;
 	
 	public WurstCrashReporter(CrashReport report)
 	{
@@ -65,5 +66,10 @@ public class WurstCrashReporter extends JFrame
 		JButton btnDontSend = new JButton("Don't Send");
 		panel.add(btnDontSend);
 		setVisible(true);
+	}
+	
+	public boolean isDoneReporting()
+	{
+		return doneReporting;
 	}
 }
