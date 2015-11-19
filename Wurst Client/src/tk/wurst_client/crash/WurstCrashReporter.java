@@ -11,6 +11,8 @@ package tk.wurst_client.crash;
 import java.awt.Color;
 import java.awt.Component;
 import java.awt.Dimension;
+import java.awt.event.ActionEvent;
+import java.awt.event.ActionListener;
 
 import javax.swing.*;
 import javax.swing.border.EmptyBorder;
@@ -64,6 +66,21 @@ public class WurstCrashReporter extends JFrame
 		panel.add(rigidArea);
 		
 		JButton btnDontSend = new JButton("Don't Send");
+		btnDontSend.addActionListener(new ActionListener()
+		{
+			@Override
+			public void actionPerformed(ActionEvent e)
+			{
+				try
+				{
+					doneReporting = true;
+					dispose();
+				}catch(Exception e1)
+				{
+					e1.printStackTrace();
+				}
+			}
+		});
 		panel.add(btnDontSend);
 		setVisible(true);
 	}
