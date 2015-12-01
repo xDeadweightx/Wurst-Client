@@ -82,24 +82,6 @@ public class AutoToolMod extends Mod implements LeftClickListener,
 	
 	public static void setSlot(BlockPos blockPos)
 	{
-		float bestSpeed = .1F;
-                int bestSlot = 0;
-                Block block = Minecraft.getMinecraft().theWorld.getBlockState(blockPos).getBlock();
-                InventoryPlayer iPlayer = mc.thePlayer.inventory;
-                if(Block.getIdFromBlock(block) == 7)return;
- 
-                for(ItemStack item:iPlayer.mainInventory){
-                        if(item != null && item.getStrVsBlock(block) > bestSpeed){
-                                bestSpeed = item.getStrVsBlock(block);
-                                bestSlot = iPlayer.getInventorySlotContainItem(item.getItem());
-                        }
-                }
-                if(bestSlot > 9){
-                        try{
-                                mc.playerController.windowClick(0, bestSlot, 0, 2, mc.thePlayer);
-                        }catch(Exception e){e.printStackTrace();}
-                        bestSlot = 0;
-                }
-                iPlayer.currentItem = bestSlot;
+		
 	}
 }
