@@ -60,7 +60,7 @@ public class AutoToolMod extends Mod implements LeftClickListener,
 		WurstClient.INSTANCE.events.remove(LeftClickListener.class, this);
 		WurstClient.INSTANCE.events.remove(UpdateListener.class, this);
 		isActive = false;
-		Minecraft.getMinecraft().thePlayer.inventory.currentItem = oldSlot;
+		//Minecraft.getMinecraft().thePlayer.inventory.currentItem = oldSlot;
 	}
 	
 	@Override
@@ -75,7 +75,7 @@ public class AutoToolMod extends Mod implements LeftClickListener,
 			.getBlock().getMaterial() != Material.air)
 		{
 			isActive = true;
-			oldSlot = Minecraft.getMinecraft().thePlayer.inventory.currentItem;
+			//oldSlot = Minecraft.getMinecraft().thePlayer.inventory.currentItem;
 			setSlot(Minecraft.getMinecraft().objectMouseOver.getBlockPos());
 		}
 	}
