@@ -1,5 +1,5 @@
 /*
- * Copyright © 2014 - 2015 Alexander01998 and contributors
+ * Copyright Â© 2014 - 2015 Alexander01998 and contributors
  * All rights reserved.
  * 
  * This Source Code Form is subject to the terms of the Mozilla Public
@@ -82,25 +82,24 @@ public class AutoToolMod extends Mod implements LeftClickListener,
 	
 	public static void setSlot(BlockPos blockPos)
 	{
-		float bestSpeed = 1F;
-		int bestSlot = -1;
-		Block block =
-			Minecraft.getMinecraft().theWorld.getBlockState(blockPos)
-				.getBlock();
-		for(int i = 0; i < 9; i++)
-		{
-			ItemStack item =
-				Minecraft.getMinecraft().thePlayer.inventory.getStackInSlot(i);
-			if(item == null)
-				continue;
-			float speed = item.getStrVsBlock(block);
-			if(speed > bestSpeed)
-			{
-				bestSpeed = speed;
-				bestSlot = i;
-			}
-		}
-		if(bestSlot != -1)
-			Minecraft.getMinecraft().thePlayer.inventory.currentItem = bestSlot;
+		float bestSpeed = .1F;
+                int bestSlot = 0;
+                Block block = Minecraft.getMinecraft().theWorld.getBlockState(blockPos).getBlock();
+                InventoryPlayer iPlayer = mc.thePlayer.inventory;
+                if(Block.getIdFromBlock(block) == 7)return;
+ 
+                for(ItemStack item:iPlayer.mainInventory){
+                        if(item != null && item.getStrVsBlock(block) > bestSpeed){
+                                bestSpeed = item.getStrVsBlock(block);
+                                bestSlot = iPlayer.getInventorySlotContainItem(item.getItem());
+                        }
+                }
+                if(bestSlot > 9){
+                        try{
+                                mc.playerController.windowClick(0, bestSlot, 0, 2, mc.thePlayer);
+                        }catch(Exception e){e.printStackTrace();}
+                        bestSlot = 0;
+                }
+                iPlayer.currentItem = bestSlot;
 	}
 }
